@@ -297,7 +297,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
                     <h3 class="text-2xl font-bold mb-2">ColibriHub</h3>
-                    <p class="text-gray-400">Soluciones tecnológicas innovadoras</p>
+                    <p class="text-gray-400">Soluciones innovadoras</p>
                 </div>
                 
                 <div class="flex space-x-6">
