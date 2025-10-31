@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Clientes para  ColibriHub</title>
+    <title>Registro de Clientes - ColibriHub</title>
     <link href="./dist/output.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -56,10 +56,51 @@
             </div>
             
             <div class="p-8">
+<?php
+// Solo procesar si el formulario se envía por POST
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Reemplaza esta URL por la IP o dominio donde corre tu backend Spring Boot
+    $url = 'http://194.163.138.89:8090/api/clientes';
+
+    // Capturar los datos del formulario
+    $data = [
+        "nombre" => $_POST['nombre'] ?? '',
+        "correo" => $_POST['correo'] ?? '',
+        "telefono" => $_POST['telefono'] ?? '',
+        "direccion" => $_POST['direccion'] ?? ''
+    ];
+
+    // Configurar petición POST con cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $error = curl_error($ch);
+    curl_close($ch);
+
+    // Mostrar resultado en alertas bonitas
+    if ($error) {
+        echo "<div class='alert alert-error'><i class='fa-solid fa-triangle-exclamation alert-icon'></i>
+              <span>Error de conexión con el servidor: $error</span></div>";
+    } elseif ($httpCode >= 200 && $httpCode < 300) {
+        echo "<div class='alert alert-success'><i class='fa-solid fa-circle-check alert-icon'></i>
+              <span>Cliente registrado correctamente ✅</span></div>";
+    } else {
+        echo "<div class='alert alert-warning'><i class='fa-solid fa-circle-exclamation alert-icon'></i>
+              <span>Error al registrar cliente. Código HTTP: $httpCode</span></div>";
+    }
+}
+?>
+
                 <?php
                 // Procesar el formulario cuando se envía
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $url = 'http://164.68.117.181:8090/api/clientes';
+                    $url = 'http://217.76.61.206:8090/api/clientes';
                     
                     // Recoger y sanitizar datos del formulario
                     $data = [
@@ -297,7 +338,7 @@
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div class="mb-6 md:mb-0">
                     <h3 class="text-2xl font-bold mb-2">ColibriHub</h3>
-                    <p class="text-gray-400">Soluciones innovadoras</p>
+                    <p class="text-gray-400">Soluciones tecnológicas innovadoras</p>
                 </div>
                 
                 <div class="flex space-x-6">
